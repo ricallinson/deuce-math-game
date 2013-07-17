@@ -7,7 +7,9 @@
         "node" : ">=0.8.0 <= 0.11.0"
     },
     "scripts": {
-        "test": "./test/run"
+        "start": "./scripts/dev",
+        "test": "./test/run",
+        "build": "./scripts/build"
     },
     "dependencies" : {
         "confdir": "git://github.com/ricallinson/deuce.git#master"
