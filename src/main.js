@@ -2,26 +2,32 @@
 
 "use strict";
 
-define(["jquery", "libs/game", "tmpls"], function ($, Game, tmpls) {
+define(["jquery", "libs/game", "libs/apprise", "tmpls"], function ($, Game, apprise, tmpls) {
 
-	$("body").html(tmpls["game.html"]);
+    $("body").html(tmpls["game.html"]);
 
-	var board = $(".game-board"),
-		width = $(".screen").width(),
-		height = $(document).height(),
-		game;
+    var board = $(".game-board"),
+        width = $(".screen").width(),
+        height = $(document).height(),
+        game;
 
-	board.width(width);
-	board.height(height - $(".game-console").height());
+    board.width(width);
+    board.height(height - $(".game-console").height());
 
-	game = new Game(board, $(".game-info"), $(".game-score"));
-	game.start();
+    game = new Game(board, $(".game-info"), $(".game-score"));
+    game.start();
 
-	$(".restart").click(function () {
-		game.restart();
-	});
+    game.on("gameover", function () {
+        apprise("Game Over", {}, function () {
+            game.restart();
+        });
+    });
 
-	$(".clean").click(function () {
-		game.clean();
-	});
+    $(".restart").click(function () {
+        game.restart();
+    });
+
+    $(".clean").click(function () {
+        game.clean();
+    });
 });

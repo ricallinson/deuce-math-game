@@ -20,12 +20,41 @@ define(["jquery"], function ($) {
         this.points = 0;
         this.gameId = null;
 
+        this.listeners = {};
+
         for (i = 0; i < this.cols; i = i + 1) {
             this.addColumn();
         }
-
-        console.log("Go");
     }
+
+    Game.prototype.on = function (event, fn) {
+
+        event = event.toLowerCase();
+
+        if (!this.listeners[event.toLowerCase()]) {
+            this.listeners[event.toLowerCase()] = [];
+        }
+
+        this.listeners[event.toLowerCase()].push(fn);
+    };
+
+    Game.prototype.fire = function (event, data) {
+
+        var trigger,
+            func;
+
+        func = function (fn) {
+            fn(data);
+        };
+
+        event = event.toLowerCase();
+
+        for (trigger in this.listeners) {
+            if (trigger === event) {
+                this.listeners[trigger].forEach(func);
+            }
+        }
+    };
 
     Game.prototype.random = function (max) {
         return Math.floor((Math.random() * (max || 9)) + 1);
@@ -102,7 +131,7 @@ define(["jquery"], function ($) {
 
     Game.prototype.setup = function () {
 
-        var numBlocks = this.rows,
+        var numBlocks = this.rows * 2,
             i;
 
         $(".block").each(this.removeBlock);
@@ -145,23 +174,29 @@ define(["jquery"], function ($) {
         });
     };
 
-    Game.prototype.nextTick = function (gameId, interval, scope) {
+    Game.prototype.nextTick = function (gameId, scope, interval) {
+
+        interval = interval || 4000;
 
         if (scope.hasEnded()) {
             scope.stop();
+            scope.gameOver();
         } else if (scope.gameId === gameId) {
             scope.addBlock();
             setTimeout(function () {
-                scope.nextTick(gameId, interval, scope);
+                scope.nextTick(gameId, scope, 4000 - (scope.turn * 10));
+                // console.log(4000 - (scope.turn * 10));
             }, interval);
         }
     };
 
+    Game.prototype.gameOver = function () {
+        console.log("Game finished");
+        this.fire("gameover");
+    };
+
     Game.prototype.stop = function () {
-
         this.board.off("click");
-
-        console.log("Game over");
     };
 
     Game.prototype.start = function (sum, turn, points) {
@@ -173,7 +208,9 @@ define(["jquery"], function ($) {
         this.points = points || 0;
         this.setup();
 
-        this.nextTick(this.gameId, 3000, this);
+        this.nextTick(this.gameId, this);
+
+        console.log("Game started");
     };
 
     Game.prototype.restart = function () {
