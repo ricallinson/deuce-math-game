@@ -1,2 +1,3 @@
-deuce-math-game
-===============
+# Deuce-math-game
+
+Example.
