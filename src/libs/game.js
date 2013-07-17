@@ -80,7 +80,7 @@ define(["jquery"], function ($) {
     };
 
     Game.prototype.updatePoints = function (turn, used, sum) {
-        this.points = this.points + ((turn + (sum / used)) * 1000);
+        this.points = this.points + ((turn + Math.round(sum / used, 0)) * 1000);
         this.score.html(this.points);
     };
 
