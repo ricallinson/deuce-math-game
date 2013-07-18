@@ -1,0 +1,62 @@
+body {
+	margin: 0;
+	padding: 0;
+}
+
+.screen {
+	overflow: hidden;
+	margin: auto;
+	font-size: 30px;
+}
+
+.game-console {
+
+}
+
+.game-board {
+	overflow: hidden;
+	display: inline-block;
+	background: #ccc;
+	height: 400px;
+	width: 400px;
+}
+
+.game-commands {
+	overflow: hidden;
+	display: inline-block;
+}
+
+.game-info {
+	overflow: hidden;
+	display: inline-block;
+	background: #777;
+	text-align: center;
+}
+
+.game-score {
+	overflow: hidden;
+	display: inline-block;
+	background: #777;
+}
+
+.game-board .column {
+	overflow: hidden;
+	display: inline-block;
+	vertical-align: middle;
+	background: #ddd;
+}
+
+.game-board .column:nth-child(even) {
+	background: #bbb;
+}
+
+.game-board .block {
+	overflow: hidden;
+	position: relative;
+	background: #999;
+	text-align: center;
+}
+
+.game-board .block.selected {
+	background: #777;
+}
