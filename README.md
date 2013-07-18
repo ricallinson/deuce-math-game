@@ -1,6 +1,6 @@
 # Deuce-math-game
 
-Example project using [Deuce](https://github.com/ricallinson/deuce) for building a [PhoneGap](http://phonegap.com/) application.
+Example project using [Deuce](https://github.com/ricallinson/deuce) for building a simple application.
 
 ## Play
 
